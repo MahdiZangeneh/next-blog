@@ -35,7 +35,7 @@ const AdminSecondaryNav: FC<Props> = (props): JSX.Element => {
       <SearchBar />
       {/* options / profile head */}
       <DropdownOptions
-        head={<ProfileHead nameInitial="J" />}
+        head={<ProfileHead nameInitial="M" />}
         options={options}
       />
     </div>

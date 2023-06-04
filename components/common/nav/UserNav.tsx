@@ -68,7 +68,7 @@ const UserNav: FC<Props> = (props): JSX.Element => {
         {isAuth ? (
           <DropdownOptions
             options={dropDownOptions}
-            head={<ProfileHead nameInitial="N" lightOnly />}
+            head={<ProfileHead nameInitial="M" lightOnly />}
           />
         ) : (
           <GitHubAuthButton onClick={handleLoginWithGithub} lightOnly />
