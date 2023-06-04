@@ -74,7 +74,6 @@ export const getServerSideProps: GetServerSideProps<
           slug,
           meta,
         },
-        revalidate: 20,
       },
     };
   } catch (error) {
