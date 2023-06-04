@@ -1,6 +1,6 @@
 import formidable from "formidable";
 import { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import Post, { PostModelSchema } from "../models/Post";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { PostDetail, UserProfile } from "../utils/types";
@@ -55,7 +55,7 @@ export const formatPosts = (posts: PostModelSchema[]): PostDetail[] => {
 };
 
 export const isAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await unstable_getServerSession(req, res, authOptions);
+  const session = await getServerSession(req, res, authOptions);
   const user = session?.user as UserProfile;
   return user && user.role === "admin";
 };

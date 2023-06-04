@@ -1,6 +1,5 @@
 import { NextApiHandler } from "next";
 import dbConnect from "../../../lib/dbConnect";
-import Joi from "joi";
 import { postValidationSchema, validateSchema } from "../../../lib/validator";
 import {
   formatPosts,
@@ -11,9 +10,7 @@ import {
 import Post from "../../../models/Post";
 import formidable from "formidable";
 import cloudinary from "../../../lib/cloudinary";
-import { IncomingPost, UserProfile } from "../../../utils/types";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]";
+import { IncomingPost } from "../../../utils/types";
 
 export const config = {
   api: { bodyParser: false },
