@@ -102,7 +102,7 @@ const Input: FC<{
 }> = ({ name, value, placeholder, label, onChange }) => {
   return (
     <label className="block relative">
-      <span className="absolute top-1/2 -translate-y-1/2 text-sm font-semibold text-primary-dark dark:text-primary pl-1">
+      <span className="absolute top-1/2 -translate-y-1/2 text-sm font-semibold text-primary-dark dark:text-primary pl-2">
         {label}
       </span>
 

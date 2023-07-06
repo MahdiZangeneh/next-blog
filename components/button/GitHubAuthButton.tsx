@@ -7,10 +7,6 @@ interface Props {
   lightOnly?: boolean;
 }
 
-const handleClick = async () => {
-  await signIn("github");
-};
-
 const commonClasses =
   "flex items-center justify-center space-x-1 px-3 py-2 rounded hover:scale-[0.97] transition duration-100";
 
@@ -19,6 +15,8 @@ export const GitHubAuthButton: FC<Props> = ({ lightOnly }): JSX.Element => {
     if (lightOnly) return "text-primary-dark bg-primary";
     return "bg-primary-dark dark:bg-primary dark:text-primary-dark text-primary";
   }, [lightOnly]);
+
+  const handleClick = async () => await signIn("github");
 
   return (
     <button

@@ -21,7 +21,6 @@ const Home: NextPage<Props> = ({ posts }) => {
   const [hasMorePosts, setHasMorePosts] = useState(posts.length >= limit);
 
   const profile = useAuth();
-
   const isAdmin = profile && profile.role === "admin";
 
   const fetchMorePosts = async () => {

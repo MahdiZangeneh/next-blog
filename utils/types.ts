@@ -1,5 +1,3 @@
-import { string } from "joi";
-
 export interface PostDetail {
   id: string;
   title: string;
@@ -37,4 +35,27 @@ export interface CommentResponse {
   repliedTo?: string;
   chiefComment: boolean;
   owner: { name: string; id: string; avatar?: string };
+}
+
+export interface LatestComment {
+  id: string;
+  owner: {
+    id: string;
+    name: string;
+    avatar?: string;
+  };
+  content: string;
+  belongsTo: {
+    id: string;
+    title: string;
+    slug: string;
+  };
+}
+
+export interface LatestUserProfile {
+  id: string;
+  name: string;
+  avatar?: string;
+  provider: string;
+  email: string;
 }

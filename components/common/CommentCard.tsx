@@ -1,19 +1,20 @@
+import { FC, ReactNode, useState } from "react";
+import ProfileIcon from "./ProfileIcon";
 import dateFormat from "dateformat";
 import parse from "html-react-parser";
-import { FC, ReactNode, useState } from "react";
 import {
   BsFillReplyAllFill,
   BsFillTrashFill,
   BsPencilSquare,
 } from "react-icons/bs";
+import CommentForm from "./CommentForm";
 import { CommentResponse } from "../../utils/types";
-import CommentFrom from "./CommentFrom";
 import LikeHeart from "./LikeHeart";
-import ProfileIcon from "./ProfileIcon";
 
 interface Props {
   comment: CommentResponse;
-  showControls: boolean;
+  showControls?: boolean;
+  busy?: boolean;
   onUpdateSubmit?(content: string): void;
   onReplySubmit?(content: string): void;
   onDeleteClick?(): void;
@@ -23,12 +24,13 @@ interface Props {
 const CommentCard: FC<Props> = ({
   comment,
   showControls = false,
+  busy,
   onUpdateSubmit,
   onReplySubmit,
   onDeleteClick,
   onLikeClick,
 }): JSX.Element => {
-  const { owner, content, createdAt, likedByOwner, likes } = comment;
+  const { owner, createdAt, content, likedByOwner, likes } = comment;
   const { name, avatar } = owner;
   const [showForm, setShowForm] = useState(false);
   const [initialState, setInitialState] = useState("");
@@ -51,39 +53,38 @@ const CommentCard: FC<Props> = ({
     setInitialState(content);
   };
 
-  const handleCommentSubmit = (content: string) => {
+  const handleCommentSubmit = (comment: string) => {
     // means we want to update
     if (initialState) {
-      onUpdateSubmit && onUpdateSubmit(content);
+      onUpdateSubmit && onUpdateSubmit(comment);
     } else {
-      //means we want to reply
-      onReplySubmit && onReplySubmit(content);
+      // means we want to reply
+      onReplySubmit && onReplySubmit(comment);
     }
     hideReplyForm();
   };
 
   return (
     <div className="flex space-x-3">
-      <ProfileIcon
-        avatar={avatar}
-        nameInitial={name[0].toUpperCase()}
-        lightOnly
-      />
+      <ProfileIcon nameInitial={name[0].toUpperCase()} avatar={avatar} />
+
       <div className="flex-1">
         <h1 className="text-lg text-primary-dark dark:text-primary font-semibold">
           {name}
         </h1>
         <span className="text-sm text-secondary-dark">
-          {dateFormat(createdAt, "d-mm-yyyy")}
+          {dateFormat(createdAt, "d-mmm-yyyy")}
         </span>
         <div className="text-primary-dark dark:text-primary">
           {parse(content)}
         </div>
+
         <div className="flex space-x-4">
           <LikeHeart
             liked={likedByOwner}
             label={likes + " likes"}
             onClick={onLikeClick}
+            busy={busy}
           />
           <Button onClick={handleOnReplyClick}>
             <BsFillReplyAllFill />
@@ -105,7 +106,7 @@ const CommentCard: FC<Props> = ({
 
         {showForm && (
           <div className="mt-3">
-            <CommentFrom
+            <CommentForm
               onSubmit={handleCommentSubmit}
               onClose={hideReplyForm}
               initialState={initialState}

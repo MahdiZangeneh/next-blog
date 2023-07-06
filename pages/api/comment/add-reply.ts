@@ -16,7 +16,7 @@ const handler: NextApiHandler = (req, res) => {
       return addReplyToComment(req, res);
 
     default:
-      res.status(404).send("Not Found");
+      res.status(404).send("Not found!");
   }
 };
 
@@ -37,7 +37,6 @@ const addReplyToComment: NextApiHandler = async (req, res) => {
     _id: repliedTo,
     chiefComment: true,
   });
-
   if (!chiefComment)
     return res.status(404).json({ error: "Comment not found!" });
 
@@ -55,7 +54,7 @@ const addReplyToComment: NextApiHandler = async (req, res) => {
 
   const finalComment = await replyComment.populate("owner");
 
-  return res.status(201).json({ comment: formatComment(finalComment, user) });
+  res.status(201).json({ comment: formatComment(finalComment, user) });
 };
 
 export default handler;

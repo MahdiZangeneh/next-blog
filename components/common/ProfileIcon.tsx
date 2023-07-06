@@ -7,7 +7,6 @@ interface Props {
   nameInitial?: string;
   lightOnly?: boolean;
 }
-
 const commonClasses =
   "relative flex items-center justify-center rounded-full overflow-hidden w-8 h-8 select-none";
 
@@ -21,6 +20,7 @@ const ProfileIcon: FC<Props> = ({
       ? "text-primary-dark bg-primary"
       : "bg-primary-dark dark:bg-primary dark:text-primary-dark text-primary";
   }, [lightOnly]);
+
   return (
     <div className={classNames(commonClasses, getStyle())}>
       {avatar ? (

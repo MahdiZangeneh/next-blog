@@ -13,7 +13,6 @@ const {
 
 const GIT_CLIENT_ID =
   MODE === "development" ? GIT_CLIENT_ID_LOCAL : GITHUB_CLIENT_ID;
-
 const GIT_CLIENT_SECRET =
   MODE === "development" ? GIT_CLIENT_SECRET_LOCAL : GITHUB_CLIENT_SECRET;
 

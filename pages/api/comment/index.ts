@@ -8,6 +8,7 @@ import {
 } from "../../../lib/validator";
 import Comment from "../../../models/Comment";
 import Post from "../../../models/Post";
+import { CommentResponse } from "../../../utils/types";
 
 const handler: NextApiHandler = (req, res) => {
   const { method } = req;
@@ -26,7 +27,7 @@ const handler: NextApiHandler = (req, res) => {
       return readComments(req, res);
 
     default:
-      res.status(404).send("Not Found");
+      res.status(404).send("Not found!");
   }
 };
 
@@ -50,13 +51,11 @@ const readComments: NextApiHandler = async (req, res) => {
       },
     });
 
-  if (!comments) return res.json({ comments });
-  const formattedComment = comments.map((comment) => {
-    return {
-      ...formatComment(comment, user),
-      replies: comment.replies?.map((c: any) => formatComment(c, user)),
-    };
-  });
+  if (!comments) return res.json({ comment: comments });
+  const formattedComment: CommentResponse[] = comments.map((comment) => ({
+    ...formatComment(comment, user),
+    replies: comment.replies?.map((c: any) => formatComment(c, user)),
+  }));
   res.json({ comments: formattedComment });
 };
 
@@ -67,8 +66,10 @@ const createNewComment: NextApiHandler = async (req, res) => {
   const error = validateSchema(commentValidationSchema, req.body);
   if (error) return res.status(422).json({ error });
 
+  // create comment
   await dbConnect();
   const { belongsTo, content } = req.body;
+
   const post = await Post.findById(belongsTo);
   if (!post) return res.status(401).json({ error: "Invalid Post!" });
 
@@ -88,15 +89,24 @@ const removeComment: NextApiHandler = async (req, res) => {
   const user = await isAuth(req, res);
   if (!user) return res.status(403).json({ error: "unauthorized request!" });
 
+  // if chief comment remove other related comments (replies) as well.
+  // if this is the reply comment remove from the chiefComments replies section.
+  // then remove the actual comment
+
   const { commentId } = req.query;
   if (!commentId || !isValidObjectId(commentId))
     return res.status(422).json({ error: "Invalid request!" });
 
-  const comment = await Comment.findOne({ _id: commentId, owner: user.id });
+  const comment = await Comment.findOne({
+    _id: commentId,
+    owner: user.id,
+  });
   if (!comment) return res.status(404).json({ error: "Comment not found!" });
 
+  // if chief comment remove other related comments (replies) as well.
   if (comment.chiefComment) await Comment.deleteMany({ repliedTo: commentId });
   else {
+    // if this is the reply comment remove from the chiefComments replies section.
     const chiefComment = await Comment.findById(comment.repliedTo);
     if (chiefComment?.replies?.includes(commentId as any)) {
       chiefComment.replies = chiefComment.replies.filter(
@@ -107,6 +117,7 @@ const removeComment: NextApiHandler = async (req, res) => {
     }
   }
 
+  // then remove the actual comment
   await Comment.findByIdAndDelete(commentId);
   res.json({ removed: true });
 };
@@ -114,6 +125,9 @@ const removeComment: NextApiHandler = async (req, res) => {
 const updateComment: NextApiHandler = async (req, res) => {
   const user = await isAuth(req, res);
   if (!user) return res.status(403).json({ error: "unauthorized request!" });
+
+  const error = validateSchema(commentValidationSchema, req.body);
+  if (error) return res.status(422).json({ error });
 
   const { commentId } = req.query;
   if (!commentId || !isValidObjectId(commentId))

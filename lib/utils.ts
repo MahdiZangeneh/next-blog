@@ -1,7 +1,7 @@
 import formidable from "formidable";
 import { ObjectId } from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
+import { unstable_getServerSession } from "next-auth";
 import { IComment } from "../models/Comment";
 import Post, { PostModelSchema } from "../models/Post";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
@@ -57,13 +57,13 @@ export const formatPosts = (posts: PostModelSchema[]): PostDetail[] => {
 };
 
 export const isAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const user = session?.user as UserProfile;
   return user && user.role === "admin";
 };
 
 export const isAuth = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await unstable_getServerSession(req, res, authOptions);
   const user = session?.user;
   if (user) return user as UserProfile;
 };
@@ -82,7 +82,7 @@ export const formatComment = (
     likes: comment.likes.length,
     chiefComment: comment?.chiefComment || false,
     createdAt: comment.createdAt?.toString(),
-    owner: { id: owner.id, name: owner.name, avatar: owner.avatar },
+    owner: { id: owner._id, name: owner.name, avatar: owner.avatar },
     repliedTo: comment?.repliedTo?.toString(),
     likedByOwner: user ? getLikedByOwner(comment.likes, user) : false,
   };
