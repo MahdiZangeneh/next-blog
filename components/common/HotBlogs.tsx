@@ -12,8 +12,8 @@ const HotBlogs: FC<Props> = ({ posts }): JSX.Element => {
   const [postLgOne, postLgTwo, postSmOne, postSmTwo, postSmThree] = posts;
 
   return (
-    <div className="grid grid-cols-3 gap-1">
-      <div className="col-span-3 grid grid-cols-2 gap-1">
+    <div className="grid sm:grid-cols-3 gap-1">
+      <div className="sm:col-span-3 grid sm:grid-cols-2 gap-1">
         <div className="col-span-1">
           <article className="relative aspect-video overflow-hidden rounded">
             <Link href={"/" + postLgOne.slug}>
