@@ -9,7 +9,6 @@ interface Props {
 
 const DropdownOptions: FC<Props> = ({ head, options }): JSX.Element => {
   const [showOptions, setShowOptions] = useState(false);
-
   return (
     <button
       onBlur={() => setShowOptions(false)}

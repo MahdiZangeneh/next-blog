@@ -17,6 +17,88 @@
   background: rgb(202, 181, 226);
 }
 
+.bg-gradient-animation {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-gradient-animation-v1::before,
+.bg-gradient-animation-v2::before,
+.bg-gradient-animation-v3::before,
+.bg-gradient-animation-v4::before,
+.bg-gradient-animation-v5::before,
+.bg-gradient-animation-v1::after,
+.bg-gradient-animation-v2::after,
+.bg-gradient-animation-v3::after,
+.bg-gradient-animation-v4::after,
+.bg-gradient-animation-v5::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.bg-gradient-animation-v1::before {
+  background: linear-gradient(135deg, #292484, #dc4225);
+  background-size: 300% 300%;
+  z-index: 1;
+  animation: gradientAnimation 4s ease-in infinite;
+  opacity: 0.5;
+}
+
+.bg-gradient-animation-v2::before {
+  background: linear-gradient(135deg, #1a2980, #26d0ce);
+  background-size: 300% 300%;
+  z-index: 1;
+  animation: gradientAnimation 4s ease-in infinite;
+  opacity: 0.5;
+}
+
+.bg-gradient-animation-v3::before {
+  background: linear-gradient(135deg, #1d976c, #3cf93d);
+  background-size: 300% 300%;
+  z-index: 1;
+  animation: gradientAnimation 4s ease-in infinite;
+  opacity: 0.5;
+}
+
+.bg-gradient-animation-v4::before {
+  background: linear-gradient(135deg, #e0be00, #dc4225);
+  background-size: 300% 300%;
+  z-index: 1;
+  animation: gradientAnimation 4s ease-in infinite;
+  opacity: 0.5;
+}
+
+.bg-gradient-animation-v5::before {
+  background: linear-gradient(135deg, #ff4f39, #dd0098);
+  background-size: 300% 300%;
+  z-index: 1;
+  animation: gradientAnimation 4s ease-in infinite;
+  opacity: 0.5;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0 0;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: Bildad;
+  src: url("fonts/Bildad.ttf") format("truetype");
+}

@@ -15,7 +15,7 @@ const DefaultLayout: FC<Props> = ({ children, title, desc }): JSX.Element => {
       <div className="min-h-screen bg-primary dark:bg-primary-dark transition">
         <UserNav />
 
-        <div className="max-w-4xl mx-auto">{children}</div>
+        {children}
       </div>
     </>
   );

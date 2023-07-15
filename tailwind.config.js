@@ -7,12 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        diablo: "Bildad",
+      },
       colors: {
-        "primary-dark": "#1f1f1f",
+        "primary-dark": "#000",
         primary: "#ffffff",
         highlight: {
           dark: "#FFFFFF",
-          light: "#1f1f1f",
+          light: "#000",
         },
         secondary: {
           dark: "#707070",

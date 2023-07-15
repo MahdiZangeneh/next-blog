@@ -10,9 +10,10 @@ import DefaultLayout from "../components/layout/DefaultLayout";
 import { formatPosts, readPostsFromDb } from "../lib/utils";
 import { PostDetail, UserProfile } from "../utils/types";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { filterPosts } from "../utils/helper";
 import useAuth from "../hooks/useAuth";
+import HotBlogs from "../components/common/HotBlogs";
+import Banner from "../components/common/Banner";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
@@ -40,18 +41,31 @@ const Home: NextPage<Props> = ({ posts }) => {
   };
 
   return (
-    <DefaultLayout>
-      <div className="pb-20">
-        <InfiniteScrollPosts
-          hasMore={hasMorePosts}
-          next={fetchMorePosts}
-          dataLength={postsToRender.length}
-          posts={postsToRender}
-          showControls={isAdmin}
-          onPostRemoved={(post) => setPostsToRender(filterPosts(posts, post))}
-        />
+    <>
+      <div className="w-full hidden md:block">
+        <Banner />
       </div>
-    </DefaultLayout>
+      <DefaultLayout>
+        <div className="max-w-6xl mx-auto">
+          <HotBlogs posts={postsToRender} />
+        </div>
+        <div className="max-w-6xl mx-auto pb-20">
+          <div className="border-b-4 dark:border-white border-black mt-7 pb-2 px-2 lg:px-0">
+            <h3 className="font-semi-bold text-2xl text-primary-dark dark:text-primary">
+              All Posts
+            </h3>
+          </div>
+          <InfiniteScrollPosts
+            hasMore={hasMorePosts}
+            next={fetchMorePosts}
+            dataLength={postsToRender.length}
+            posts={postsToRender}
+            showControls={isAdmin}
+            onPostRemoved={(post) => setPostsToRender(filterPosts(posts, post))}
+          />
+        </div>
+      </DefaultLayout>
+    </>
   );
 };
 

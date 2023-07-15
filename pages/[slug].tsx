@@ -20,6 +20,7 @@ import User from "../models/User";
 import AuthorInfo from "../components/common/AuthorInfo";
 import Share from "../components/common/Share";
 import Link from "next/link";
+import Banner from "../components/common/Banner";
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -75,67 +76,65 @@ const SinglePost: NextPage<Props> = ({ post }) => {
   }, []);
 
   return (
-    <DefaultLayout title={title} desc={meta}>
-      <div className="lg:px-0 px-3">
-        {thumbnail ? (
-          <div className="relative aspect-video">
-            <Image src={thumbnail} alt={title} layout="fill" />
+    <>
+      {thumbnail ? <Banner src={thumbnail} alt={title} /> : <Banner />}
+
+      <DefaultLayout title={title} desc={meta}>
+        <div className="max-w-4xl mx-auto lg:px-0 px-3">
+          <h1 className="text-6xl font-semibold text-primary-dark dark:text-primary py-2">
+            {title}
+          </h1>
+
+          <div className="flex items-center justify-between py-2 text-secondary-dark dark:text-secondary-light">
+            {tags.map((t, index) => (
+              <span key={t + index}>#{t}</span>
+            ))}
+            <span>{dateFormat(createdAt, "d-mmm-yyyy")}</span>
           </div>
-        ) : null}
 
-        <h1 className="text-6xl font-semibold text-primary-dark dark:text-primary py-2">
-          {title}
-        </h1>
-
-        <div className="flex items-center justify-between py-2 text-secondary-dark dark:text-secondary-light">
-          {tags.map((t, index) => (
-            <span key={t + index}>#{t}</span>
-          ))}
-          <span>{dateFormat(createdAt, "d-mmm-yyyy")}</span>
-        </div>
-
-        <div className="py-5 dark:bg-primary-dark bg-primary transition sticky top-0 z-50">
-          <Share url={host + "/" + slug} />
-        </div>
-
-        <div className="prose prose-lg dark:prose-invert max-w-full mx-auto">
-          {parse(content)}
-        </div>
-
-        <div className="py-10">
-          <LikeHeart
-            liked={likes.likedByOwner}
-            label={getLikeLabel()}
-            onClick={!liking ? handleOnLikeClick : undefined}
-            busy={liking}
-          />
-        </div>
-
-        <div className="pt-10">
-          <AuthorInfo profile={JSON.parse(author)} />
-        </div>
-
-        <div className="pt-5">
-          <h3 className="text-xl font-semibold bg-secondary-dark text-primary p-2 mb-4">
-            Related Posts:
-          </h3>
-
-          <div className="flex flex-col space-y-4">
-            {relatedPosts.map((p) => {
-              return (
-                <Link href={p.slug} key={p.slug}>
-                  <a className="font-semibold text-primary-dark dark:text-primary hover:underline">
-                    {p.title}
-                  </a>
-                </Link>
-              );
-            })}
+          <div className="py-5 dark:bg-primary-dark bg-primary transition sticky top-0 z-50">
+            <Share url={host + "/" + slug} />
           </div>
-        </div>
 
-        <Comments belongsTo={id} />
-      </div>
-    </DefaultLayout>
+          <div className="prose prose-lg dark:prose-invert max-w-full mx-auto">
+            {parse(content)}
+          </div>
+
+          <div className="py-10">
+            <LikeHeart
+              liked={likes.likedByOwner}
+              label={getLikeLabel()}
+              onClick={!liking ? handleOnLikeClick : undefined}
+              busy={liking}
+            />
+          </div>
+
+          <div className="pt-10">
+            <AuthorInfo profile={JSON.parse(author)} />
+          </div>
+
+          <div className="pt-5">
+            <h3 className="text-xl font-semibold bg-secondary-dark text-primary p-2 mb-4">
+              Related Posts:
+            </h3>
+
+            <div className="flex flex-col space-y-4">
+              {relatedPosts.map((p) => {
+                return (
+                  <Link href={p.slug} key={p.slug}>
+                    <a className="font-semibold text-primary-dark dark:text-primary hover:underline">
+                      {p.title}
+                    </a>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          <Comments belongsTo={id} />
+        </div>
+      </DefaultLayout>
+    </>
   );
 };
 

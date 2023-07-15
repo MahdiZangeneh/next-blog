@@ -3,6 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { RiMenuFoldFill, RiMenuUnfoldFill } from "react-icons/ri";
 import Logo from "../Logo";
+import Image from "next/image";
 
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -62,7 +63,12 @@ const AdminNav: FC<Props> = ({ navItems }): JSX.Element => {
         {/* logo */}
         <Link href="/admin">
           <a className="flex items-center space-x-2 p-3 mb-10">
-            <Logo className="fill-highlight-light dark:fill-highlight-dark w-5 h-5" />
+            <Image
+              src="https://res.cloudinary.com/dxsiwyv8k/image/upload/v1689057430/dev-blogs/adbfl7ysfapetyng7vbz.png"
+              width={80}
+              height={80}
+              alt="Logo"
+            />
             {visible && (
               <span className="text-highlight-light dark:text-highlight-dark text-xl font-semibold leading-none">
                 Admin

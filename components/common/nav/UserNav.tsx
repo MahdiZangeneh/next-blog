@@ -6,6 +6,7 @@ import { GitHubAuthButton } from "../../button";
 import { APP_NAME } from "../AppHead";
 import DropdownOptions, { dropDownOptions } from "../DropdownOptions";
 import Logo from "../Logo";
+import Image from "next/image";
 import ProfileHead from "../ProfileHead";
 import { useRouter } from "next/router";
 import { UserProfile } from "../../../utils/types";
@@ -44,12 +45,19 @@ const UserNav: FC<Props> = (props): JSX.Element => {
     : defaultOptions;
 
   return (
-    <div className="flex items-center justify-between bg-primary-dark p-3">
+    <div className="flex items-center justify-between dark:bg-primary-dark bg-primary lg:w-[90%] lg:mt-[-30px] relative z-10 mx-auto p-3">
       {/* Logo */}
       <Link href="/">
-        <a className="flex items-center space-x-2 text-highlight-dark">
-          <Logo className="fill-highlight-dark md:w-8 md:h-8 md-5 h-5" />
-          <span className="md:text-xl font-semibold">{APP_NAME}</span>
+        <a className="flex items-center space-x-2 text-highlight-light dark:text-highlight-dark">
+          <Image
+            src="https://res.cloudinary.com/dxsiwyv8k/image/upload/v1689057430/dev-blogs/adbfl7ysfapetyng7vbz.png"
+            width={80}
+            height={80}
+            alt="Logo"
+          />
+          <span className="md:text-4xl font-semibold font-diablo text-xl">
+            {APP_NAME}
+          </span>
         </a>
       </Link>
 
