@@ -1,6 +1,7 @@
 # Blog Website
 
 This is a blog website built using Next.js 12+, TypeScript, MongoDB, and Tailwind CSS. The website includes an admin panel that allows administrators to create, update, and delete posts. Users also have the ability to add, update, like and delete comments/posts. To log in and add comments, users are required to have a GitHub account.
+You can view the online project [here](https://next-blog-mu-mauve.vercel.app/).
 
 ## Features
 
