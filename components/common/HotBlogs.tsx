@@ -98,15 +98,15 @@ const HotBlogs: FC<Props> = ({ posts }): JSX.Element => {
               className={`block w-full h-full transition-transform hover:scale-110 after:absolute after:top-0 after:bottom-0 after:left-0 after:right-0 `}
             >
               <Image
-                src={postSmTwo.thumbnail!}
-                alt={postSmTwo.title}
+                src={postSmThree.thumbnail!}
+                alt={postSmThree.title}
                 layout="fill"
               />
               <div className="absolute inset-0 bg-gradient-animation-v5"></div>
             </a>
           </Link>
           <h2 className="absolute font-bold text-white bottom-0 p-5 text-lg z-10">
-            {postSmTwo.title}
+            {postSmThree.title}
           </h2>
         </article>
       </div>
