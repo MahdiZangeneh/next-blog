@@ -14,12 +14,22 @@ import { filterPosts } from "../utils/helper";
 import useAuth from "../hooks/useAuth";
 import HotBlogs from "../components/common/HotBlogs";
 import Banner from "../components/common/Banner";
+import ButtonGroup from "../components/common/ButtonGroup";
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>;
 
+const buttonData = [
+  { id: "all", label: "All Posts" },
+  { id: "fix", label: "Fixes" },
+  { id: "guide", label: "Guides" },
+  { id: "update", label: "Updates" },
+];
+
 const Home: NextPage<Props> = ({ posts }) => {
   const [postsToRender, setPostsToRender] = useState(posts);
+  // const [postItems, setPostItems] = useState<PostDetail[]>(posts);
   const [hasMorePosts, setHasMorePosts] = useState(posts.length >= limit);
+  const [activeFilter, setActiveFilter] = useState("all");
 
   const profile = useAuth();
   const isAdmin = profile && profile.role === "admin";
@@ -39,7 +49,20 @@ const Home: NextPage<Props> = ({ posts }) => {
       console.log(error);
     }
   };
+  const handleFilterPosts = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const tagId = event.currentTarget.id;
+    setActiveFilter(tagId);
 
+    if (tagId === "all") {
+      setPostsToRender(posts);
+      setHasMorePosts(true);
+    } else {
+      setHasMorePosts(false);
+    }
+
+    const filteredPosts = posts.filter((post) => post.tags.includes(tagId));
+    setPostsToRender(filteredPosts);
+  };
   return (
     <>
       <div className="w-full hidden md:block">
@@ -47,7 +70,7 @@ const Home: NextPage<Props> = ({ posts }) => {
       </div>
       <DefaultLayout>
         <div className="max-w-6xl mx-auto">
-          <HotBlogs posts={postsToRender} />
+          <HotBlogs posts={posts} />
         </div>
         <div className="max-w-6xl mx-auto pb-20">
           <div className="border-b-4 dark:border-white border-black mt-7 pb-2 px-2 lg:px-0">
@@ -55,6 +78,11 @@ const Home: NextPage<Props> = ({ posts }) => {
               All Posts
             </h3>
           </div>
+          <ButtonGroup
+            buttons={buttonData}
+            activeButton={activeFilter}
+            onClick={handleFilterPosts}
+          />
           <InfiniteScrollPosts
             hasMore={hasMorePosts}
             next={fetchMorePosts}
